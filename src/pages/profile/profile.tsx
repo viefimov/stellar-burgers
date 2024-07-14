@@ -1,18 +1,25 @@
 import { ProfileUI } from '@ui-pages';
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '../../services/store';
+import { fetchUser, updateUser } from '../../slices/UserSlice';
+import { Preloader } from '@ui';
 
 export const Profile: FC = () => {
-  /** TODO: взять переменную из стора */
-  const user = {
-    name: '',
-    email: ''
-  };
+  const dispatch = useDispatch<AppDispatch>();
+  const { user, status } = useSelector((state: RootState) => state.user);
 
   const [formValue, setFormValue] = useState({
-    name: user.name,
-    email: user.email,
+    name: '',
+    email: '',
     password: ''
   });
+
+  useEffect(() => {
+    if (!user && status === 'idle') {
+      dispatch(fetchUser());
+    }
+  }, [dispatch, user, status]);
 
   useEffect(() => {
     setFormValue((prevState) => ({
@@ -29,13 +36,21 @@ export const Profile: FC = () => {
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
+    const updateData: { name: string; email: string; password?: string } = {
+      name: formValue.name,
+      email: formValue.email
+    };
+    if (formValue.password) {
+      updateData.password = formValue.password;
+    }
+    dispatch(updateUser(updateData));
   };
 
   const handleCancel = (e: SyntheticEvent) => {
     e.preventDefault();
     setFormValue({
-      name: user.name,
-      email: user.email,
+      name: user?.name || '',
+      email: user?.email || '',
       password: ''
     });
   };
@@ -47,6 +62,10 @@ export const Profile: FC = () => {
     }));
   };
 
+  if (status === 'loading') {
+    return <Preloader />;
+  }
+
   return (
     <ProfileUI
       formValue={formValue}
@@ -56,6 +75,4 @@ export const Profile: FC = () => {
       handleInputChange={handleInputChange}
     />
   );
-
-  return null;
 };
