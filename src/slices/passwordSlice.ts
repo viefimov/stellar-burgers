@@ -13,23 +13,15 @@ const initialState: PasswordResetState = {
 
 export const forgotPassword = createAsyncThunk(
   'passwordReset/forgotPassword',
-  async (email: string, thunkAPI) => {
-    try {
-      await forgotPasswordApi({ email });
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
+  async (email: string) => {
+    await forgotPasswordApi({ email });
   }
 );
 
 export const resetPassword = createAsyncThunk(
   'passwordReset/resetPassword',
-  async (data: { password: string; token: string }, thunkAPI) => {
-    try {
-      await resetPasswordApi(data);
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
+  async (data: { password: string; token: string }) => {
+    await resetPasswordApi(data);
   }
 );
 

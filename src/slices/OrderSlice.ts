@@ -23,25 +23,17 @@ const initialState: OrderState = {
 
 export const fetchOrderByNumber = createAsyncThunk<TOrder, number>(
   'order/fetchOrderByNumber',
-  async (orderNumber, thunkAPI) => {
-    try {
-      const response = await getOrderByNumberApi(orderNumber);
-      return response.orders[0];
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
+  async (orderNumber) => {
+    const response = await getOrderByNumberApi(orderNumber);
+    return response.orders[0];
   }
 );
 
 export const postOrder = createAsyncThunk<TNewOrderResponse, string[]>(
   'order/createOrder',
-  async (ingredients, thunkAPI) => {
-    try {
-      const response = await orderBurgerApi(ingredients);
-      return response;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
+  async (ingredients) => {
+    const response = await orderBurgerApi(ingredients);
+    return response;
   }
 );
 

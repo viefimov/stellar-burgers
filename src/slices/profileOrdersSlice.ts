@@ -16,13 +16,9 @@ const initialState: ProfileOrderssState = {
 
 export const getOrders = createAsyncThunk<TOrder[]>(
   'orders/getOrders',
-  async (_, thunkAPI) => {
-    try {
-      const response = await getOrdersApi();
-      return response;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
+  async () => {
+    const response = await getOrdersApi();
+    return response;
   }
 );
 const ordersSlice = createSlice({
