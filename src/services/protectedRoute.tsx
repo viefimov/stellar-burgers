@@ -17,7 +17,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   const location = useLocation();
   const from = location.state?.from || '/';
   const dispatch = useDispatch();
-  const { getIsAuthChecked, getUser } = userSelectors;
+  const { getIsAuthChecked } = userSelectors;
   const { status } = useSelector((state) => state.user);
   const isAuthChecked = useSelector(getIsAuthChecked);
   useEffect(() => {
