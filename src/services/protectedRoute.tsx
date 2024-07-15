@@ -1,48 +1,42 @@
 import React, { ReactNode, useEffect } from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../services/store';
+import { useDispatch, useSelector } from '../services/store';
 import { fetchUser, userSelectors } from '../slices/UserSlice';
 import { getCookie } from '../utils/cookie';
 import { Preloader } from '@ui';
 
 interface ProtectedRouteProps {
   children: ReactNode;
+  onUnAuth?: boolean;
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
+  children,
+  onUnAuth = false
+}) => {
   const location = useLocation();
-  const dispatch = useDispatch<AppDispatch>();
+  const from = location.state?.from || '/';
+  const dispatch = useDispatch();
   const { getIsAuthChecked, getUser } = userSelectors;
-  const user = useSelector(getUser);
+  const { status } = useSelector((state) => state.user);
   const isAuthChecked = useSelector(getIsAuthChecked);
   useEffect(() => {
-    const cookie = getCookie('token');
-    if (cookie && !isAuthChecked) {
+    if (!isAuthChecked) {
       dispatch(fetchUser());
     }
   }, [dispatch, isAuthChecked]);
-  if (!isAuthChecked) {
+  if (status == 'loading') {
     return <Preloader />;
   }
-
-  if (!user) {
-    return (
-      <Navigate
-        replace
-        to={'/login'}
-        state={{
-          from: {
-            ...location,
-            backgroundLocation: location.state?.backgroundLocation,
-            state: null
-          }
-        }}
-      />
-    );
+  if (!onUnAuth && !isAuthChecked) {
+    return <Navigate to='/login' state={{ from: location }} />;
   }
 
-  return children;
+  if (onUnAuth && isAuthChecked) {
+    return <Navigate to={from} />;
+  }
+
+  return children ? children : <Outlet />;
 };
 
 export default ProtectedRoute;

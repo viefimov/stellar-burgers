@@ -2,19 +2,12 @@ import { useState, useRef, useEffect, FC } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useDispatch, useSelector } from '../../services/store';
 import { fetchIngredients } from '../../slices/IngredientsSlice';
-import { RootState } from '../../services/store';
-import { TTabMode, TIngredient } from '../../utils/types';
+import { TTabMode } from '../../utils/types';
 import { BurgerIngredientsUI } from '../ui/burger-ingredients';
 
 export const BurgerIngredients: FC = () => {
   const dispatch = useDispatch();
-  const { items: ingredients } = useSelector(
-    (state: RootState) => state.ingredients
-  );
-
-  useEffect(() => {
-    dispatch(fetchIngredients());
-  }, [dispatch]);
+  const { items: ingredients } = useSelector((state) => state.ingredients);
 
   const buns = ingredients.filter((ingredient) => ingredient.type === 'bun');
   const mains = ingredients.filter((ingredient) => ingredient.type === 'main');

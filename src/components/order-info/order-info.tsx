@@ -2,18 +2,15 @@ import { FC, useEffect, useMemo } from 'react';
 import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../services/store';
+import { useDispatch, useSelector } from '../../services/store';
 import { useParams } from 'react-router-dom';
 import { fetchOrderByNumber } from '../../slices/OrderSlice';
 
 export const OrderInfo: FC = () => {
   const { number } = useParams<{ number: string }>();
-  const dispatch = useDispatch<AppDispatch>();
-  const orderData = useSelector((state: RootState) => state.order.currentOrder);
-  const ingredients = useSelector(
-    (state: RootState) => state.ingredients.items
-  );
+  const dispatch = useDispatch();
+  const orderData = useSelector((state) => state.order.currentOrder);
+  const ingredients = useSelector((state) => state.ingredients.items);
   useEffect(() => {
     if (number) {
       dispatch(fetchOrderByNumber(parseInt(number, 10)));

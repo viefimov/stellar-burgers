@@ -3,9 +3,11 @@ import React, { FC, SyntheticEvent, useState } from 'react';
 import { useDispatch, useSelector } from '../../services/store';
 import { loginUser } from '../../slices/UserSlice';
 import { LoginUI } from '@ui-pages';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export const Login: FC = () => {
+  const location = useLocation();
+  const from = location.state?.from || '/';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorText, setErrorText] = useState('');
@@ -18,7 +20,7 @@ export const Login: FC = () => {
     e.preventDefault();
     try {
       await dispatch(loginUser({ email, password })).unwrap();
-      navigate('/profile'); // путь к защищенной странице
+      navigate(from);
     } catch (err) {
       setErrorText('Login failed. Please try again.');
     }

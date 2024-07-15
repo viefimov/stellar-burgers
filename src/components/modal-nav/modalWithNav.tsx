@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Modal } from '../modal/modal';
 
 export const ModalWithNavigation: React.FC<{
@@ -7,9 +7,10 @@ export const ModalWithNavigation: React.FC<{
   children: ReactNode;
 }> = ({ title, children }) => {
   const navigate = useNavigate();
-
+  const location = useLocation();
+  const from = location.state?.from || '/';
   const handleClose = () => {
-    navigate(-1);
+    navigate(from);
   };
   return (
     <Modal title={title} onClose={handleClose}>
