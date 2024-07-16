@@ -36,7 +36,7 @@ const App: React.FC = () => {
   const background = location.state?.background;
 
   useEffect(() => {
-    dispatch(fetchUser()).finally(() => dispatch(authCheck()));
+    dispatch(fetchUser());
     dispatch(fetchIngredients());
   }, [dispatch]);
 
@@ -94,29 +94,13 @@ const App: React.FC = () => {
             </ProtectedRoute>
           }
         />
-        <Route
-          path='/feed/:number'
-          element={
-            <ModalWithNavigation title='Информация о заказе'>
-              <OrderInfo />
-            </ModalWithNavigation>
-          }
-        />
-        <Route
-          path='/ingredients/:id'
-          element={
-            <ModalWithNavigation title='Детали ингредиента'>
-              <IngredientDetails />
-            </ModalWithNavigation>
-          }
-        />
+        <Route path='/feed/:number' element={<OrderInfo />} />
+        <Route path='/ingredients/:id' element={<IngredientDetails />} />
         <Route
           path='/profile/orders/:number'
           element={
             <ProtectedRoute>
-              <ModalWithNavigation title='Информация о заказе'>
-                <OrderInfo />
-              </ModalWithNavigation>
+              <OrderInfo />
             </ProtectedRoute>
           }
         />

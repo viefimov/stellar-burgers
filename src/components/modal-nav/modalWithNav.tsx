@@ -8,7 +8,7 @@ export const ModalWithNavigation: React.FC<{
 }> = ({ title, children }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from || '/';
+  const from = location.state?.from || location.state.background || '/';
   const handleClose = () => {
     navigate(from);
   };

@@ -4,12 +4,13 @@ import {
   getConstructorItems
 } from '../../slices/ConstructorSlice';
 
-import { FC, useMemo } from 'react';
+import { FC, useLayoutEffect, useMemo } from 'react';
 import { TConstructorIngredient } from '@utils-types';
 import { useDispatch, useSelector } from '../../services/store';
 import { useNavigate } from 'react-router-dom';
 import { userSelectors } from '../../slices/UserSlice';
 import {
+  clearCurrentOrder,
   clearData,
   getOrder,
   getOrderLoading,
@@ -23,7 +24,9 @@ export const BurgerConstructor: FC = () => {
   const constructorItems = useSelector(getConstructorItems);
   const orderRequest = useSelector(getOrderLoading);
   const orderModalData = useSelector(getOrder);
-
+  useLayoutEffect(() => {
+    dispatch(clearCurrentOrder());
+  }, [dispatch]);
   const onOrderClick = () => {
     if (!constructorItems.bun || orderRequest) return;
     if (!userData) {
