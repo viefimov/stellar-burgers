@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import { Button, Input } from '@zlden/react-developer-burger-ui-components';
 import styles from './profile.module.css';
@@ -6,6 +6,10 @@ import commonStyles from '../common.module.css';
 
 import { ProfileUIProps } from './type';
 import { ProfileMenu } from '@components';
+import { Preloader } from '../../preloader';
+import { fetchUser } from '../../../../slices/UserSlice';
+import { getCookie } from '../../../../utils/cookie';
+import { useDispatch } from '../../../../services/store';
 
 export const ProfileUI: FC<ProfileUIProps> = ({
   formValue,
