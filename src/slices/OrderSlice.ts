@@ -7,7 +7,7 @@ import {
 import { TOrder } from '../utils/types';
 import { RootState } from '../services/store';
 
-interface OrderState {
+export interface OrderState {
   currentOrder: TOrder | null;
   loading: boolean;
   error: string | null;

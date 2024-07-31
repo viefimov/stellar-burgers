@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getFeedsApi } from '../utils/burger-api';
 import { TOrdersData } from '../utils/types';
 
-interface FeedsState extends TOrdersData {
+export interface FeedsState extends TOrdersData {
   loading: boolean;
   error: string | null;
 }
