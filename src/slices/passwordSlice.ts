@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { forgotPasswordApi, resetPasswordApi } from '@api';
 
-interface PasswordResetState {
+export interface PasswordResetState {
   loading: boolean;
   error: string | undefined;
 }

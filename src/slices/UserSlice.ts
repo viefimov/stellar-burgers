@@ -15,7 +15,7 @@ import { TUser } from '@utils-types';
 import { deleteCookie, setCookie } from '../utils/cookie';
 import { RootState } from '../services/store';
 
-interface UserState {
+export interface UserState {
   user: TUser | null;
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
