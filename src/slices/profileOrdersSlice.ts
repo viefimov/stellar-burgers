@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getOrdersApi } from '../utils/burger-api';
 import { TOrder } from '@utils-types';
 
-interface ProfileOrderssState {
+export interface ProfileOrderssState {
   orders: TOrder[];
   loading: boolean;
   error: string | null;
